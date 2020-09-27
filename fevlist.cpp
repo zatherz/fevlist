@@ -137,13 +137,15 @@ int main(int argc, const char** argv) {
         FMOD::Studio::EventDescription* event = target_event_ary[i];
 
         char* path = (char*)malloc(sizeof(char) * EVENT_PATH_MAX_LEN);
+        FMOD_GUID id;
 
         panic_on_err(event->getPath(path, EVENT_PATH_MAX_LEN, NULL));
+        panic_on_err(event->getID(&id));
 
         if (verbose) {
-            printf("event %d: path = '%s'\n", i, path);
+            printf("event %d: path = '%s', guid = '%x-%04x-%04x-%01x%01x-%01x%01x%01x%01x%01x%01x'\n", i, path, id.Data1, id.Data2, id.Data3, id.Data4[0], id.Data4[1], id.Data4[2], id.Data4[3], id.Data4[4], id.Data4[5], id.Data4[6], id.Data4[7]);
         } else {
-            printf("%s\n", path);
+            printf("{%x-%04x-%04x-%01x%01x-%01x%01x%01x%01x%01x%01x} %s\n", id.Data1, id.Data2, id.Data3, id.Data4[0], id.Data4[1], id.Data4[2], id.Data4[3], id.Data4[4], id.Data4[5], id.Data4[6], id.Data4[7], path);
         }
 
         free(path);
